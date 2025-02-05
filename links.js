@@ -1,21 +1,21 @@
 // Fonction pour créer un élément de lien
 function createLinkElement(key, linkData) {
     const link = document.createElement('a');
-    link.href = linkData.url;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
+    link.href = linkData.url || '#';
     link.className = `link-item ${linkData.type || 'other'}`;
 
-    // Ajout de l'événement click pour gérer l'ouverture avec le navigateur approprié
+    // Ajout de l'événement click pour gérer différents types d'ouverture
     link.addEventListener('click', function(e) {
         e.preventDefault();
-        const url = this.href;
-        if (linkData.type === 'cpr') {
+        if (linkData.modal) {
+            // Ouvrir un modal
+            $(`#${linkData.modal}`).modal('show');
+        } else if (linkData.type === 'cpr') {
             // Ouvrir avec Edge
-            window.location.href = `microsoft-edge:${url}`;
+            window.location.href = `microsoft-edge:${this.href}`;
         } else {
-            // Ouvrir avec Chrome par défaut si non 
-            window.open(url, '_blank');
+            // Ouvrir avec Chrome par défaut
+            window.open(this.href, '_blank');
         }
     });
 
@@ -194,6 +194,12 @@ const links = {
         }
     },
     outils: {
+        calculator: {
+            icon: "fa-solid fa-calculator",
+            text: "Calculatrice",
+            modal: "calculatorModal",
+            type: "other"
+        },
         gitlab: {
             url: "https://gitlab.cpr.local/users/sign_in",
             icon: "fa-brands fa-gitlab",

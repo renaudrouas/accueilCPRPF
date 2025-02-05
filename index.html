@@ -17,6 +17,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" defer></script>
   <script src="links.js" defer></script>
+  <script src="calculator.js" defer></script></script>
 </head>
 <body>
 
@@ -127,5 +128,171 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<!-- Styles pour la calculatrice -->
+<style>
+.calculator-modal .modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(145deg, #ffffff, #f6f9fc);
+}
+
+.calculator-modal .modal-header {
+    background: linear-gradient(145deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 15px 15px 0 0;
+    padding: 1.5rem;
+    border: none;
+}
+
+.calculator-modal .modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.calculator-modal .close {
+    color: white;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.calculator-modal .close:hover {
+    opacity: 1;
+}
+
+.calculator-modal .modal-body {
+    padding: 2rem;
+}
+
+.calculator-modal .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.calculator-modal label {
+    font-weight: 500;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+}
+
+.calculator-modal .form-control {
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s;
+    background: #f8fafc;
+}
+
+.calculator-modal .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    background: white;
+}
+
+.calculator-modal select.form-control {
+    cursor: pointer;
+}
+
+.calculator-modal .result-container {
+    background: linear-gradient(145deg, #f8fafc, #edf2f7);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+}
+
+.calculator-modal .result-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.08);
+}
+
+.calculator-modal .result-label {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 1.1rem;
+}
+
+.calculator-modal .result-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #007bff;
+    margin-left: 0.5rem;
+}
+
+.calculator-modal .modal-footer {
+    border-top: none;
+    padding: 1.5rem;
+}
+
+.calculator-modal .clear-button {
+    width: 100%;
+    padding: 0.75rem;
+    font-weight: 500;
+    transition: all 0.3s;
+    border-radius: 10px;
+}
+
+.calculator-modal .clear-button:hover {
+    background-color: #dc3545;
+    color: white;
+    border-color: #dc3545;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+</style>
+
+<!-- Modal Calculatrice -->
+<div class="modal fade calculator-modal" id="calculatorModal" tabindex="-1" role="dialog" aria-labelledby="calculatorModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="calculatorModalLabel">
+          <i class="fas fa-calculator mr-2"></i>Calculatrice
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="operation">
+            <i class="fas fa-cog mr-2"></i>Type de calcul
+          </label>
+          <select class="form-control" id="operation" onchange="updateFields()">
+            <option value="cjmFromSab">Calculer CJM depuis SAB</option>
+            <option value="sabFromCjm">Calculer SAB depuis CJM</option>
+            <option value="margin">Calculer la marge</option>
+            <option value="increase">Calculer SAB après augmentation</option>
+            <option value="increasePercentage">Calculer % d'augmentation entre 2 SAB</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label id="input1Label" for="input1">
+            <i class="fas fa-euro-sign mr-2"></i>SAB (€)
+          </label>
+          <input type="number" class="form-control" id="input1" step="any" placeholder="Entrez une valeur...">
+        </div>
+        <div class="form-group">
+          <label id="input2Label" for="input2">
+            <i class="fas fa-euro-sign mr-2"></i>Second nombre
+          </label>
+          <input type="number" class="form-control" id="input2" step="any" placeholder="Entrez une valeur...">
+        </div>
+        <div class="result-container">
+          <label id="resultLabel" class="result-label">
+            <i class="fas fa-equals mr-2"></i>CJM (€)
+          </label>
+          <span id="result" class="result-value">-</span>
+        </div>
+        <button onclick="clearCalculator()" class="btn btn-outline-secondary mt-3 clear-button">
+          <i class="fas fa-eraser mr-2"></i>Effacer
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
