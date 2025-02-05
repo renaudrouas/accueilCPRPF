@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculatrice CPRPF - Inetum">
+    <title>Calculatrice CPRPF</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="https://www.inetum.com/themes/custom/web_ui/favicon.ico" type="image/vnd.microsoft.icon">
+
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <script src="calculator.js"></script>
+
+    <style>
+        body {
+            background: linear-gradient(145deg, #f8fafc, #edf2f7);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calculator-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .calculator-header {
+            background: linear-gradient(145deg, #007bff, #0056b3);
+            color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            font-weight: 500;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s;
+            background: #f8fafc;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            outline: none;
+        }
+
+        select.form-control {
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+            padding-right: 2.5rem;
+            width: 100%;
+            font-size: 0.9rem;
+            line-height: 1.2;
+            white-space: normal;
+            height: auto;
+            min-height: 42px;
+        }
+
+        select.form-control option {
+            font-size: 0.9rem;
+            padding: 8px;
+            white-space: normal;
+        }
+
+        select.form-control::-ms-expand {
+            display: none;
+        }
+
+        .result-container {
+            background: linear-gradient(145deg, #f8fafc, #edf2f7);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .result-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 1.1rem;
+        }
+
+        .result-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-left: 0.5rem;
+        }
+
+        .clear-button {
+            width: 100%;
+            padding: 0.75rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .clear-button:hover {
+            background-color: #dc3545;
+            color: white;
+            border-color: #dc3545;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .bookmark-info {
+            text-align: center;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #e9ecef;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator-container">
+            <div class="calculator-header">
+                <h1 class="h4 mb-0">
+                    <i class="fas fa-calculator mr-2"></i>Calculatrice CPRPF
+                </h1>
+            </div>
+            
+            <div class="form-group">
+                <label for="operation">
+                    <i class="fas fa-cog mr-2"></i>Type de calcul
+                </label>
+                <select class="form-control" id="operation">
+                    <option value="cjmFromSab">Calculer CJM depuis SAB</option>
+                    <option value="sabFromCjm">Calculer SAB depuis CJM</option>
+                    <option value="margin">Calculer la marge</option>
+                    <option value="increase">Calculer SAB après augmentation</option>
+                    <option value="increasePercentage">Calculer % d'augmentation entre 2 SAB</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label id="input1Label" for="input1">
+                    <i class="fas fa-euro-sign mr-2"></i>SAB (€)
+                </label>
+                <input type="number" class="form-control" id="input1" step="any" placeholder="Entrez une valeur...">
+            </div>
+
+            <div class="form-group">
+                <label id="input2Label" for="input2">
+                    <i class="fas fa-euro-sign mr-2"></i>Second nombre
+                </label>
+                <input type="number" class="form-control" id="input2" step="any" placeholder="Entrez une valeur...">
+            </div>
+
+            <div class="result-container">
+                <label id="resultLabel" class="result-label">
+                    <i class="fas fa-equals mr-2"></i>CJM (€)
+                </label>
+                <span id="result" class="result-value">-</span>
+            </div>
+
+            <button onclick="clearCalculator()" class="btn btn-outline-secondary clear-button">
+                <i class="fas fa-eraser mr-2"></i>Effacer
+            </button>
+
+            <div class="bookmark-info">
+                <i class="fas fa-bookmark mr-2"></i>
+                Pour ajouter cette calculatrice à vos favoris, utilisez le raccourci Ctrl+D (Windows) ou Cmd+D (Mac)
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <a href="index.html" class="btn btn-link">
+                <i class="fas fa-arrow-left mr-2"></i>Retour à l'accueil
+            </a>
+        </div>
+    </footer>
+</body>
+</html>

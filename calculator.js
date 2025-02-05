@@ -182,3 +182,17 @@ function calculate() {
 // Exporter le module pour une utilisation globale
 window.Calculator = Calculator;
 
+// Initialisation de la calculatrice
+document.addEventListener('DOMContentLoaded', function() {
+    const operationSelect = document.getElementById('operation');
+    if (operationSelect) {
+        operationSelect.addEventListener('change', updateFields);
+        // Initialiser les champs au chargement
+        updateFields();
+    }
+
+    // Gérer l'ouverture de la modal
+    $('#calculatorModal').on('shown.bs.modal', function () {
+        updateFields();
+    });
+});

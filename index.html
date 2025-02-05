@@ -12,12 +12,12 @@
   <link rel="icon" href="https://www.inetum.com/themes/custom/web_ui/favicon.ico" type="image/vnd.microsoft.icon">
   
   <!-- Scripts -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" defer></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" defer></script>
   <script src="links.js" defer></script>
-  <script src="calculator.js" defer></script></script>
+  <script src="calculator.js" defer></script>
 </head>
 <body>
 
@@ -143,6 +143,26 @@ document.addEventListener('DOMContentLoaded', function() {
     border-radius: 15px 15px 0 0;
     padding: 1.5rem;
     border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.calculator-modal .modal-header-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.calculator-modal .modal-header .btn-link {
+    padding: 0.25rem 0.5rem;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+    border-radius: 4px;
+}
+
+.calculator-modal .modal-header .btn-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
 }
 
 .calculator-modal .modal-title {
@@ -185,11 +205,41 @@ document.addEventListener('DOMContentLoaded', function() {
 .calculator-modal .form-control:focus {
     border-color: #007bff;
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-    background: white;
+    outline: none;
 }
 
 .calculator-modal select.form-control {
     cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+    padding-right: 2.5rem;
+    width: 100%;
+    font-size: 0.9rem;
+    line-height: 1.2;
+    white-space: normal;
+    height: auto;
+    min-height: 42px;
+}
+
+.calculator-modal select.form-control option {
+    font-size: 0.9rem;
+    padding: 8px;
+    white-space: normal;
+}
+
+.calculator-modal select.form-control::-ms-expand {
+    display: none;
+}
+
+.calculator-modal select.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    outline: none;
 }
 
 .calculator-modal .result-container {
@@ -249,16 +299,21 @@ document.addEventListener('DOMContentLoaded', function() {
         <h5 class="modal-title" id="calculatorModalLabel">
           <i class="fas fa-calculator mr-2"></i>Calculatrice
         </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <div class="modal-header-buttons">
+          <a href="calculator.html" class="btn btn-link text-white mr-2" target="_blank" title="Ouvrir dans une nouvelle page">
+            <i class="fas fa-external-link-alt"></i>
+          </a>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
       </div>
       <div class="modal-body">
         <div class="form-group">
           <label for="operation">
             <i class="fas fa-cog mr-2"></i>Type de calcul
           </label>
-          <select class="form-control" id="operation" onchange="updateFields()">
+          <select class="form-control" id="operation">
             <option value="cjmFromSab">Calculer CJM depuis SAB</option>
             <option value="sabFromCjm">Calculer SAB depuis CJM</option>
             <option value="margin">Calculer la marge</option>
