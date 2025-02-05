@@ -208,19 +208,19 @@ const links = {
         },
         ticketsInetum: {
             url: "https://gfiindusprod.service-now.com/ghd",
-            icon: "fa-brands fa-ticket",
+            icon: "fa-solid fa-ticket",
             text: "Snow Inetum",
             type: "inetum"
         },
         adminTme: {
             url: "http://devtme.cpr.sncf.fr:8080/admin_tme/cpr.html",
-            icon: "fa-brands fa-ticket",
+            icon: "fas fa-toolbox",
             text: "Admin TME",
             type: "cpr"
         },
         antares: {
             url: "https://antares.cpr.sncf.fr:8444/coreadmin/common/main.html?page=/coreadmin/transferlog/transferLog.jspx",
-            icon: "fa-brands fa-ticket",
+            icon: "fa-solid fa-check",
             text: "Antares",
             type: "cpr"
         }
