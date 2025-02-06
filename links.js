@@ -7,14 +7,21 @@ function createLinkElement(key, linkData) {
     // Ajout de l'événement click pour gérer différents types d'ouverture
     link.addEventListener('click', function(e) {
         e.preventDefault();
+        
+        // Détecter le navigateur
+        const isEdge = navigator.userAgent.indexOf("Edg") != -1;
+        
         if (linkData.modal) {
             // Ouvrir un modal
             $(`#${linkData.modal}`).modal('show');
         } else if (linkData.type === 'cpr') {
-            // Ouvrir avec Edge
+            // Toujours ouvrir les liens CPR avec Edge
             window.location.href = `microsoft-edge:${this.href}`;
+        } else if (isEdge && linkData.type === 'inetum') {
+            // Si on est sur Edge et que c'est un lien Inetum, ouvrir avec Chrome
+            window.location.href = `chrome:${this.href}`;
         } else {
-            // Ouvrir avec Chrome par défaut
+            // Pour tous les autres cas, ouvrir dans un nouvel onglet
             window.open(this.href, '_blank');
         }
     });
