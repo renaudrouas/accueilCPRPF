@@ -10,18 +10,23 @@ function createLinkElement(key, linkData) {
         
         // Détecter le navigateur
         const isEdge = navigator.userAgent.indexOf("Edg") != -1;
+        const isChrome = navigator.userAgent.indexOf("Chrome") != -1 && !isEdge;
         
         if (linkData.modal) {
             // Ouvrir un modal
             $(`#${linkData.modal}`).modal('show');
         } else if (linkData.type === 'cpr') {
-            // Toujours ouvrir les liens CPR avec Edge
-            const edgeUrl = `microsoft-edge://${this.href.replace(/^https?:\/\//, '')}`;
-            window.location.href = edgeUrl;
-        } else if (isEdge && linkData.type === 'inetum') {
-            // Si on est sur Edge et que c'est un lien Inetum, ouvrir avec Chrome
-            const chromeUrl = `googlechrome://${this.href.replace(/^https?:\/\//, '')}`;
-            window.location.href = chromeUrl;
+            // Liens CPR
+            if (!isEdge) {
+                alert("Ce lien doit être ouvert avec Edge. Veuillez copier l'URL et l'ouvrir dans Edge.");
+            }
+            window.open(this.href, '_blank');
+        } else if (linkData.type === 'inetum') {
+            // Liens Inetum
+            if (isEdge) {
+                alert("Ce lien doit être ouvert avec Chrome. Veuillez copier l'URL et l'ouvrir dans Chrome.");
+            }
+            window.open(this.href, '_blank');
         } else {
             // Pour tous les autres cas, ouvrir dans un nouvel onglet
             window.open(this.href, '_blank');
