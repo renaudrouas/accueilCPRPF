@@ -19,7 +19,8 @@ function createLinkElement(key, linkData) {
             window.location.href = `microsoft-edge:${this.href}`;
         } else if (isEdge && linkData.type === 'inetum') {
             // Si on est sur Edge et que c'est un lien Inetum, ouvrir avec Chrome
-            window.location.href = `chrome:${this.href}`;
+            const chromeUrl = this.href.replace(/^https?:\/\//, '');
+            window.location.href = `microsoft-edge-https://${chromeUrl}`;
         } else {
             // Pour tous les autres cas, ouvrir dans un nouvel onglet
             window.open(this.href, '_blank');
