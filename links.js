@@ -16,11 +16,11 @@ function createLinkElement(key, linkData) {
             $(`#${linkData.modal}`).modal('show');
         } else if (linkData.type === 'cpr') {
             // Toujours ouvrir les liens CPR avec Edge
-            const edgeUrl = `microsoft-edge:${this.href}`;
+            const edgeUrl = `microsoft-edge://${this.href.replace(/^https?:\/\//, '')}`;
             window.location.href = edgeUrl;
         } else if (isEdge && linkData.type === 'inetum') {
             // Si on est sur Edge et que c'est un lien Inetum, ouvrir avec Chrome
-            const chromeUrl = `googlechrome:${this.href}`;
+            const chromeUrl = `googlechrome://${this.href.replace(/^https?:\/\//, '')}`;
             window.location.href = chromeUrl;
         } else {
             // Pour tous les autres cas, ouvrir dans un nouvel onglet
