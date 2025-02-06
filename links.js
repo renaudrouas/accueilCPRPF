@@ -75,25 +75,6 @@ function openInChrome(url) {
     window.location.href = chromeUrl;
 }
 
-    // Création de l'icône avec un conteneur
-    const iconContainer = document.createElement('span');
-    iconContainer.className = 'icon-container';
-    const icon = document.createElement('i');
-    icon.className = linkData.icon;
-    iconContainer.appendChild(icon);
-    
-    // Création du texte
-    const text = document.createElement('span');
-    text.textContent = linkData.text;
-    text.className = 'link-text';
-    
-    // Assemblage des éléments
-    link.appendChild(iconContainer);
-    link.appendChild(text);
-    
-    return link;
-
-
 // Fonction pour rendre les liens dans un conteneur
 function renderLinks(category, containerId) {
     const container = document.getElementById(containerId);
