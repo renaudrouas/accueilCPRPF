@@ -71,8 +71,7 @@ function openInEdge(url) {
 
 // Fonction pour ouvrir un lien sur Chrome
 function openInChrome(url) {
-    const chromeUrl = `googlechrome:${url}`;
-    window.location.href = chromeUrl;
+    window.open(url, '_blank');
 }
 
 // Fonction pour rendre les liens dans un conteneur
