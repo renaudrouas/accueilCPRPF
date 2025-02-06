@@ -56,8 +56,12 @@ function scenarioChrome(linkData) {
 // 🔵 Scénario 2 : Edge
 function scenarioEdge(linkData) {
     if (linkData.type === 'inetum') {
-        console.log("🔄 Redirection Chrome pour un lien Inetum");
-        openInChrome(linkData.url);
+        // Copier l'URL dans le presse-papier
+        navigator.clipboard.writeText(linkData.url).then(() => {
+            alert("L'URL a été copiée dans le presse-papier.\nVeuillez ouvrir Chrome et coller l'URL pour accéder à cette ressource Inetum.");
+        }).catch(() => {
+            alert("Impossible de copier l'URL automatiquement.\nVeuillez ouvrir ce lien dans Chrome : " + linkData.url);
+        });
     } else {
         window.open(linkData.url, '_blank');
     }
