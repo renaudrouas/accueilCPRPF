@@ -4,34 +4,76 @@ function createLinkElement(key, linkData) {
     link.href = linkData.url || '#';
     link.className = `link-item ${linkData.type || 'other'}`;
 
-    // Ajout de l'événement click pour gérer différents types d'ouverture
-    link.addEventListener('click', function(e) {
+    // Détection du navigateur
+    const isEdge = navigator.userAgent.indexOf("Edg") !== -1;
+    const isChrome = navigator.userAgent.indexOf("Chrome") !== -1 && !isEdge;
+
+    // Ajout de l'événement click
+    link.addEventListener('click', function (e) {
         e.preventDefault();
-        
-        // Détecter le navigateur
-        const isEdge = navigator.userAgent.indexOf("Edg") != -1;
-        const isChrome = navigator.userAgent.indexOf("Chrome") != -1 && !isEdge;
-        
-        if (linkData.modal) {
-            // Ouvrir un modal
-            $(`#${linkData.modal}`).modal('show');
-        } else if (linkData.type === 'cpr') {
-            // Liens CPR
-            if (!isEdge) {
-                alert("Ce lien doit être ouvert avec Edge. Veuillez copier l'URL et l'ouvrir dans Edge.");
-            }
-            window.open(this.href, '_blank');
-        } else if (linkData.type === 'inetum') {
-            // Liens Inetum
-            if (isEdge) {
-                alert("Ce lien doit être ouvert avec Chrome. Veuillez copier l'URL et l'ouvrir dans Chrome.");
-            }
-            window.open(this.href, '_blank');
+
+        if (isChrome) {
+            console.log("🟢 Chrome détecté : Scénario 1");
+            scenarioChrome(linkData);
+        } else if (isEdge) {
+            console.log("🔵 Edge détecté : Scénario 2");
+            scenarioEdge(linkData);
         } else {
-            // Pour tous les autres cas, ouvrir dans un nouvel onglet
+            alert("⚠️ Veuillez utiliser Chrome ou Edge pour une meilleure compatibilité.");
             window.open(this.href, '_blank');
         }
     });
+
+    // Création de l'icône
+    const iconContainer = document.createElement('span');
+    iconContainer.className = 'icon-container';
+    const icon = document.createElement('i');
+    icon.className = linkData.icon;
+    iconContainer.appendChild(icon);
+
+    // Création du texte
+    const text = document.createElement('span');
+    text.textContent = linkData.text;
+    text.className = 'link-text';
+
+    // Assemblage des éléments
+    link.appendChild(iconContainer);
+    link.appendChild(text);
+
+    return link;
+}
+
+// 🟢 Scénario 1 : Chrome
+function scenarioChrome(linkData) {
+    if (linkData.type === 'cpr') {
+        console.log("🔄 Redirection Edge pour un lien CPR");
+        openInEdge(linkData.url);
+    } else {
+        window.open(linkData.url, '_blank');
+    }
+}
+
+// 🔵 Scénario 2 : Edge
+function scenarioEdge(linkData) {
+    if (linkData.type === 'inetum') {
+        console.log("🔄 Redirection Chrome pour un lien Inetum");
+        openInChrome(linkData.url);
+    } else {
+        window.open(linkData.url, '_blank');
+    }
+}
+
+// Fonction pour ouvrir un lien sur Edge
+function openInEdge(url) {
+    const edgeUrl = `microsoft-edge:${url}`;
+    window.location.href = edgeUrl;
+}
+
+// Fonction pour ouvrir un lien sur Chrome
+function openInChrome(url) {
+    const chromeUrl = `googlechrome:${url}`;
+    window.location.href = chromeUrl;
+}
 
     // Création de l'icône avec un conteneur
     const iconContainer = document.createElement('span');
@@ -50,7 +92,7 @@ function createLinkElement(key, linkData) {
     link.appendChild(text);
     
     return link;
-}
+
 
 // Fonction pour rendre les liens dans un conteneur
 function renderLinks(category, containerId) {
@@ -102,7 +144,7 @@ const links = {
             url: "https://gfi1.sharepoint.com/:x:/r/sites/CPRPF-M022-Pilotage/Documents%20partages/CPRPF%20-%20M022%20-%20Pilotage/25-Ressources%20humaines/30-Entre%CC%81es%20sorties/T940%20-%20FR%20V2%20Annuaire%20CPRP%20SNCF.xlsx?d=w568144ae1d38431ea8d5ffd34937c2c1&csf=1&web=1&e=jqZvpz",
             icon: "fa-regular fa-file-excel",
             text: "Annuaire Projet (T940)",
-            type: "inetum"
+            type: "inetum",
         },
         matriceCompetence: {
             url: "https://gfi1.sharepoint.com/:f:/r/sites/CPRPF-M022-Pilotage/Documents%20partages/CPRPF%20-%20M022%20-%20Pilotage/25-Ressources%20humaines/05-Matrice%20compe%CC%81tences?csf=1&web=1&e=54VFUX",
